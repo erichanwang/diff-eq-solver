@@ -40,9 +40,9 @@ def solve_homogeneous_ode(coeffs, initial_conditions):
         else:
             solution = sympy.dsolve(equation, y)
 
-        # dsolve returns an Eq object. If it fails, it often raises an exception.
-        # We can directly try to access the right-hand side of the solution equation.
-        return str(solution.rhs)
+        # Convert the solution to a LaTeX string
+        latex_solution = sympy.latex(solution.rhs)
+        return latex_solution
     except Exception as e:
         return f"An error occurred while solving: {e}"
 

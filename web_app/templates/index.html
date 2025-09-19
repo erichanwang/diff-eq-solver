@@ -5,26 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Differential Equation Solver</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
     <div class="container">
-        <h1>Differential Equation Solver</h1>
+        <div class="header">
+            <h1>Differential Equation Solver</h1>
+            <p>Homogeneous Linear ODEs with Constant Coefficients</p>
+        </div>
         <form id="solver-form">
             <div class="form-group">
-                <label for="degree">Degree:</label>
+                <label for="degree">Order of the Equation:</label>
                 <input type="number" id="degree" name="degree" min="1" max="4" value="2" required>
             </div>
             <div id="equation-inputs">
                 <!-- Equation inputs will be dynamically generated here -->
             </div>
             <div id="initial-conditions">
+                <h3>Initial Conditions</h3>
                 <!-- Initial conditions will be dynamically generated here -->
             </div>
             <button type="submit">Solve</button>
         </form>
-        <div id="solution">
+        <div id="solution-container">
             <h2>Solution</h2>
-            <p id="solution-text"></p>
+            <div id="solution-output">
+                <p id="solution-text">\( y(x) = \)</p>
+            </div>
         </div>
     </div>
     <script src="{{ url_for('static', filename='script.js') }}"></script>

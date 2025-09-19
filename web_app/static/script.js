@@ -48,6 +48,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         const result = await response.json();
-        solutionText.textContent = `y(x) = ${result.solution}`;
+        
+        // Update the text and then ask MathJax to typeset the new content
+        solutionText.innerHTML = `\\( y(x) = ${result.solution} \\)`;
+        MathJax.typesetPromise();
     });
 });
