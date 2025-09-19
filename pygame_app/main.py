@@ -2,13 +2,13 @@ import pygame
 import sys
 import os
 
-# Add the parent directory to the path to import the solver
+# Add parent directory to import solver
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from solver import solve_homogeneous_ode
 
 # Pygame initialization
 pygame.init()
-screen_width = 800
+screen_width = 1000
 screen_height = 600
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("Differential Equation Solver")
@@ -42,7 +42,7 @@ def main():
         y_pos = 100
         create_input_box('degree', 200, 50, 50, 32, str(degree))
 
-        # Equation inputs
+        # Equation coefficients
         for i in range(degree, -1, -1):
             create_input_box(f'coeff{i}', 200 + (degree - i) * 100, y_pos, 50, 32)
         
@@ -53,69 +53,90 @@ def main():
 
     generate_inputs()
     
-    solve_button = pygame.Rect(350, 400, 100, 50)
+    solve_button = pygame.Rect(400, 400, 100, 50)
 
     running = True
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+
             if event.type == pygame.MOUSEBUTTONDOWN:
                 for name, box in input_boxes.items():
-                    if box['rect'].collidepoint(event.pos):
-                        box['active'] = True
+                    box['active'] = box['rect'].collidepoint(event.pos)
+                    if box['active']:
                         active_box = name
-                    else:
-                        box['active'] = False
+
                 if solve_button.collidepoint(event.pos):
                     coeffs = {}
                     ics = {}
                     for name, box in input_boxes.items():
                         if name.startswith('coeff'):
                             order = name.replace('coeff', '')
-                            coeffs[order] = int(box['text']) if box['text'] else 0
+                            try:
+                                coeffs[order] = int(box['text'])
+                            except ValueError:
+                                coeffs[order] = 0
                         elif name.startswith('ic'):
                             order = name.replace('ic', '')
-                            ics[order] = int(box['text']) if box['text'] else 0
+                            try:
+                                ics[order] = int(box['text'])
+                            except ValueError:
+                                ics[order] = 0
                     solution_text = solve_homogeneous_ode(coeffs, ics)
-
 
             if event.type == pygame.KEYDOWN and active_box:
                 if event.key == pygame.K_BACKSPACE:
                     input_boxes[active_box]['text'] = input_boxes[active_box]['text'][:-1]
                 else:
-                    input_boxes[active_box]['text'] += event.unicode
+                    # Allow digits and minus sign at start
+                    if event.unicode.isdigit() or (event.unicode == '-' and input_boxes[active_box]['text'] == ''):
+                        input_boxes[active_box]['text'] += event.unicode
                 
                 if active_box == 'degree':
-                    degree = int(input_boxes['degree']['text'])
+                    try:
+                        degree = int(input_boxes['degree']['text'])
+                    except ValueError:
+                        degree = 2
                     generate_inputs()
-
 
         screen.fill(white)
 
-        # Draw labels and boxes
+        # Draw labels
         draw_text("Degree:", 50, 55)
         
         y_pos = 100
         draw_text("Equation:", 50, y_pos + 5)
         for i in range(degree, -1, -1):
-            term = f"y{'' * i}" if i > 1 else ('y' if i == 0 else "y'")
+            if i == 0:
+                term = "y"
+            elif i == 1:
+                term = "y'"
+            else:
+                term = f"y{i}''"
             draw_text(f"{term} +", 260 + (degree - i) * 100, y_pos + 5)
 
         y_pos += 100
         draw_text("Initial Conditions:", 50, y_pos + 5)
         for i in range(degree):
-            term = f"y{'' * i}(0)" if i > 1 else ('y(0)' if i == 0 else "y'(0)")
+            if i == 0:
+                term = "y(0)"
+            elif i == 1:
+                term = "y'(0)"
+            else:
+                term = f"y{i}(0)"
             draw_text(term, 150 + i * 100, y_pos + 5)
 
-
+        # Draw input boxes
         for name, box in input_boxes.items():
             pygame.draw.rect(screen, gray, box['rect'], 2)
             draw_text(box['text'], box['rect'].x + 5, box['rect'].y + 5)
 
+        # Draw solve button
         pygame.draw.rect(screen, gray, solve_button)
         draw_text("Solve", solve_button.x + 20, solve_button.y + 15)
 
+        # Display solution
         if solution_text:
             draw_text(f"Solution: y(x) = {solution_text}", 50, 500)
 
