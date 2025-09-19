@@ -40,12 +40,11 @@ def solve_homogeneous_ode(coeffs, initial_conditions):
         else:
             solution = sympy.dsolve(equation, y)
 
-        if solution:
-            return str(solution.rhs)
-        else:
-            return "Could not find a solution."
+        # dsolve returns an Eq object. If it fails, it often raises an exception.
+        # We can directly try to access the right-hand side of the solution equation.
+        return str(solution.rhs)
     except Exception as e:
-        return f"An error occurred: {e}"
+        return f"An error occurred while solving: {e}"
 
 if __name__ == '__main__':
     # Example from problem.py: y''' - 2y'' - y' + 2y = 0
@@ -54,4 +53,4 @@ if __name__ == '__main__':
     ics_example = {'0': 4, '1': 6, '2': 10}
     solution_str = solve_homogeneous_ode(coeffs_example, ics_example)
     print(f"The solution is: y(x) = {solution_str}")
-    # Expected: 3*exp(t) + 2*exp(2*t) - exp(-t)
+    # Expected: 2*exp(2*x) + 2*exp(x)
