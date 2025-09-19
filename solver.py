@@ -11,7 +11,7 @@ def solve_homogeneous_ode(coeffs, initial_conditions):
                                    Example: {'0': 4, '1': 6, '2': 10} for y(0)=4, y'(0)=6, y''(0)=10
 
     Returns:
-        str: The solution to the differential equation.
+        dict: A dictionary containing the solution in both 'latex' and 'plain' formats, or an 'error' key.
     """
     x = sympy.symbols('x')
     y = sympy.Function('y')(x)
@@ -40,17 +40,18 @@ def solve_homogeneous_ode(coeffs, initial_conditions):
         else:
             solution = sympy.dsolve(equation, y)
 
-        # Convert the solution to a LaTeX string
+        # Prepare both LaTeX and plain string solutions
         latex_solution = sympy.latex(solution.rhs)
-        return latex_solution
+        plain_solution = str(solution.rhs)
+        
+        return {'latex': latex_solution, 'plain': plain_solution}
     except Exception as e:
-        return f"An error occurred while solving: {e}"
+        return {'error': f"An error occurred while solving: {e}"}
 
 if __name__ == '__main__':
     # Example from problem.py: y''' - 2y'' - y' + 2y = 0
     # y(0) = 4, y'(0) = 6, y''(0) = 10
     coeffs_example = {'3': 1, '2': -2, '1': -1, '0': 2}
     ics_example = {'0': 4, '1': 6, '2': 10}
-    solution_str = solve_homogeneous_ode(coeffs_example, ics_example)
-    print(f"The solution is: y(x) = {solution_str}")
-    # Expected: 2*exp(2*x) + 2*exp(x)
+    solution = solve_homogeneous_ode(coeffs_example, ics_example)
+    print(f"The solution is: {solution}")

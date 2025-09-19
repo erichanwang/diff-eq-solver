@@ -27,9 +27,9 @@ def solve():
             order = key.replace('ic', '')
             initial_conditions[order] = int(value)
 
-    solution = solve_homogeneous_ode(coeffs, initial_conditions)
+    solution_data = solve_homogeneous_ode(coeffs, initial_conditions)
     
-    return jsonify({'solution': solution})
+    return jsonify(solution_data)
 
 if __name__ == '__main__':
     app.run(debug=True)

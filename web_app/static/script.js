@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const initialConditions = document.getElementById('initial-conditions');
     const solverForm = document.getElementById('solver-form');
     const solutionText = document.getElementById('solution-text');
+    const plainSolutionText = document.getElementById('plain-solution-text');
 
     function generateInputs() {
         const degree = parseInt(degreeInput.value);
@@ -49,8 +50,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const result = await response.json();
         
-        // Update the text and then ask MathJax to typeset the new content
-        solutionText.innerHTML = `\\( y(x) = ${result.solution} \\)`;
-        MathJax.typesetPromise();
+        if (result.error) {
+            solutionText.innerHTML = `\\( y(x) = \\)`;
+            plainSolutionText.textContent = result.error;
+        } else {
+            // Update the text and then ask MathJax to typeset the new content
+            solutionText.innerHTML = `\\( y(x) = ${result.latex} \\)`;
+            plainSolutionText.textContent = `y(x) = ${result.plain}`;
+            MathJax.typesetPromise();
+        }
     });
 });
