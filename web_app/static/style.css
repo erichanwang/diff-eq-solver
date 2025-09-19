@@ -29,10 +29,26 @@ label {
 }
 
 input[type="number"] {
-    width: 100%;
+    width: 60px;
     padding: 0.5rem;
     border: 1px solid #ccc;
     border-radius: 3px;
+    text-align: center;
+}
+
+.term {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 5px;
+}
+
+.ic-group {
+    display: flex;
+    align-items: center;
+}
+
+.ic-input {
+    margin-left: 10px;
 }
 
 button {

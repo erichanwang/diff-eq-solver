@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (i === 0) term = 'y';
             if (i === 1) term = "y'";
 
-            equationHTML += `<input type="number" name="coeff${i}" required> ${term}`;
+            equationHTML += `<span class="term"><input type="number" name="coeff${i}" value="1" required> ${term}</span>`;
             if (i > 0) {
                 equationHTML += ' + ';
             }
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let term = `y${"'".repeat(i)}(0)`;
             if (i === 0) term = 'y(0)';
             if (i === 1) term = "y'(0)";
-            initialConditions.innerHTML += `<div class="form-group"><label>${term}:</label><input type="number" name="ic${i}" required></div>`;
+            initialConditions.innerHTML += `<div class="form-group ic-group"><span>${term} = </span><input type="number" name="ic${i}" value="0" class="ic-input" required></div>`;
         }
     }
 
