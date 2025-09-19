@@ -1,0 +1,20 @@
+name: Update Year
+
+on:
+  schedule:
+    - cron: '0 0 1 1 *' # Runs at 00:00 on January 1st
+
+jobs:
+  update-year:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Update year in LICENSE
+        run: |
+          sed -i "s/Copyright (c) [0-9]*/Copyright (c) $(date +'%Y')/" LICENSE
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git commit -am "Update copyright year to $(date +'%Y')"
+          git push
