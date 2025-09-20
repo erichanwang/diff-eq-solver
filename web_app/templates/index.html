@@ -9,11 +9,12 @@
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-    <button id="theme-toggle" type="button" title="Toggle Theme"><span id="theme-icon">🌙</span></button>
+    <button id="theme-toggle" type="button" title="Toggle Theme"><img id="theme-icon" src="{{ url_for('static', filename='moon-42.png') }}" alt="Moon Icon"></button>
     <div class="container">
         <div class="header">
             <h1>Differential Equation Solver</h1>
             <p>Homogeneous Linear ODEs with Constant Coefficients</p>
+            <p>By Eric Wang</p>
         </div>
         <form id="solver-form">
             <div class="form-group">

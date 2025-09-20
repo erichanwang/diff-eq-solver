@@ -13,20 +13,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'light-mode') {
         body.classList.remove('dark-mode');
-        themeIcon.textContent = '☀️';
+        themeIcon.src = '/static/sun-74.png';
+        themeIcon.alt = 'Sun Icon';
     } else {
         body.classList.add('dark-mode');
-        themeIcon.textContent = '🌙';
+        themeIcon.src = '/static/moon-42.png';
+        themeIcon.alt = 'Moon Icon';
     }
 
     themeToggle.addEventListener('click', () => {
         body.classList.toggle('dark-mode');
         if (body.classList.contains('dark-mode')) {
             localStorage.removeItem('theme');
-            themeIcon.textContent = '🌙';
+            themeIcon.src = '/static/moon-42.png';
+            themeIcon.alt = 'Moon Icon';
         } else {
             localStorage.setItem('theme', 'light-mode');
-            themeIcon.textContent = '☀️';
+            themeIcon.src = '/static/sun-74.png';
+            themeIcon.alt = 'Sun Icon';
         }
     });
 
