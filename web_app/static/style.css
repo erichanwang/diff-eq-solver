@@ -8,6 +8,7 @@ body {
     min-height: 100vh;
     background-color: #f4f7f6;
     color: #333;
+    position: relative;
 }
 
 .container {
@@ -16,7 +17,7 @@ body {
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 600px;
+    max-width: 800px;
 }
 
 .header {
@@ -43,7 +44,7 @@ label {
     font-weight: bold;
 }
 
-input[type="number"] {
+input[type="text"], input[type="number"] {
     width: 70px;
     padding: 0.5rem;
     border: 1px solid #ccc;
@@ -52,7 +53,7 @@ input[type="number"] {
     transition: border-color 0.3s;
 }
 
-input[type="number"]:focus {
+input[type="text"]:focus, input[type="number"]:focus {
     border-color: #007bff;
     outline: none;
 }
@@ -113,4 +114,86 @@ button:hover {
     border-radius: 4px;
     font-size: 1.2rem;
     text-align: center;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+#theme-toggle {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background-color: transparent;
+    color: #333;
+    border: 2px solid #333;
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+    cursor: pointer;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+#theme-toggle:hover {
+    background-color: #333;
+    color: white;
+}
+
+/* Dark Mode */
+body.dark-mode {
+    background-color: #0d0d0d;
+    color: #ffffff;
+}
+
+.dark-mode .container {
+    background-color: #1a1a1a;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+}
+
+.dark-mode .header h1,
+.dark-mode #initial-conditions h3,
+.dark-mode #solution-container h2 {
+    color: #ffffff;
+}
+
+.dark-mode .header p {
+    color: #cccccc;
+}
+
+.dark-mode input[type="text"], .dark-mode input[type="number"] {
+    background-color: #2c2c2c;
+    color: #ffffff;
+    border: 1px solid #555555;
+}
+
+.dark-mode input[type="text"]:focus, .dark-mode input[type="number"]:focus {
+    border-color: #4a90e2;
+}
+
+.dark-mode button {
+    background-color: #1e3a5f;
+}
+
+.dark-mode button:hover {
+    background-color: #0f1f33;
+}
+
+.dark-mode #solution-output {
+    background-color: #2c2c2c;
+}
+
+.dark-mode #theme-toggle {
+    color: #ffffff;
+    border-color: #ffffff;
+}
+
+.dark-mode #theme-toggle:hover {
+    background-color: #ffffff;
+    color: #0d0d0d;
+}
+
+.dark-mode #solution-container {
+    border-top: 1px solid #555555;
 }

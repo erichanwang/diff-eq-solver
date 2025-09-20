@@ -5,6 +5,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const solverForm = document.getElementById('solver-form');
     const solutionText = document.getElementById('solution-text');
     const plainSolutionText = document.getElementById('plain-solution-text');
+    const themeToggle = document.getElementById('theme-toggle');
+    const body = document.body;
+
+    // Theme handling
+    const themeIcon = document.getElementById('theme-icon');
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light-mode') {
+        body.classList.remove('dark-mode');
+        themeIcon.textContent = '☀️';
+    } else {
+        body.classList.add('dark-mode');
+        themeIcon.textContent = '🌙';
+    }
+
+    themeToggle.addEventListener('click', () => {
+        body.classList.toggle('dark-mode');
+        if (body.classList.contains('dark-mode')) {
+            localStorage.removeItem('theme');
+            themeIcon.textContent = '🌙';
+        } else {
+            localStorage.setItem('theme', 'light-mode');
+            themeIcon.textContent = '☀️';
+        }
+    });
 
     function generateInputs() {
         let degree = parseInt(degreeInput.value);
@@ -24,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
             else if (i > 1) term = `y${"'".repeat(i)}`;
 
             equationHTML += `<span class="term">
-                                <input type="number" step="any" name="coeff${i}" value="1" required> ${term}
+                                <input type="text" name="coeff${i}" value="1" required> ${term}
                              </span>`;
             if (i > 0) equationHTML += ' + ';
         }
@@ -38,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             initialConditions.innerHTML += `<div class="form-group ic-group">
                                                 <span>${term} = </span>
-                                                <input type="number" step="any" name="ic${i}" value="0" class="ic-input" required>
+                                                <input type="text" name="ic${i}" value="0" class="ic-input" required>
                                             </div>`;
         }
     }
@@ -69,8 +93,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 solutionText.textContent = "Error: " + result.error;
                 plainSolutionText.textContent = result.error;
             } else {
-                solutionText.innerHTML = `\\( y(x) = ${result.latex} \\)`;
-                plainSolutionText.textContent = `y(x) = ${result.plain}`;
+                solutionText.innerHTML = `\\( y(t) = ${result.latex} \\)`;
+                plainSolutionText.textContent = `y(t) = ${result.plain}`;
 
                 if (typeof MathJax !== 'undefined') {
                     MathJax.typesetPromise();

@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 import sys
 import os
+import sympy
 
 # Add the parent directory to the path to import the solver
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -20,12 +21,17 @@ def solve():
     initial_conditions = {}
 
     for key, value in data.items():
-        if key.startswith('coeff'):
-            order = key.replace('coeff', '')
-            coeffs[order] = int(value)
-        elif key.startswith('ic'):
-            order = key.replace('ic', '')
-            initial_conditions[order] = int(value)
+        if value:
+            try:
+                parsed_value = sympy.sympify(value)
+                if key.startswith('coeff'):
+                    order = key.replace('coeff', '')
+                    coeffs[order] = parsed_value
+                elif key.startswith('ic'):
+                    order = key.replace('ic', '')
+                    initial_conditions[order] = parsed_value
+            except (sympy.SympifyError, TypeError):
+                return jsonify({'error': f"Invalid mathematical expression: {value}"})
 
     solution_data = solve_homogeneous_ode(coeffs, initial_conditions)
     
