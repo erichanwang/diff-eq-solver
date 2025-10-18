@@ -48,6 +48,61 @@ def solve_homogeneous_ode(coeffs, initial_conditions):
     except Exception as e:
         return {'error': f"An error occurred while solving: {e}"}
 
+def solve_nonhomogeneous_ode(coeffs, rhs, initial_conditions):
+    """
+    Solves a nonhomogeneous linear ordinary differential equation with constant coefficients.
+
+    Args:
+        coeffs (dict): A dictionary of coefficients for the derivatives of y with respect to t.
+                       Example: {'2': 1, '0': 1} for y''(t) + y(t) = sin(t)
+        rhs (str): The right-hand side function as a string, e.g., 'sin(t)' or 't**2'.
+        initial_conditions (dict): A dictionary of initial conditions.
+                                   Example: {'0': 0, '1': 1} for y(0)=0, y'(0)=1
+
+    Returns:
+        dict: A dictionary containing the solution in both 'latex' and 'plain' formats, or an 'error' key.
+    """
+    t = sympy.symbols('t')
+    y = sympy.Function('y')(t)
+
+    # Construct the differential equation
+    diffeq = 0
+    for order, coeff in coeffs.items():
+        diffeq += coeff * sympy.diff(y, t, int(order))
+
+    # Parse the RHS
+    try:
+        rhs_expr = sympy.sympify(rhs)
+    except (sympy.SympifyError, TypeError):
+        return {'error': f"Invalid right-hand side expression: {rhs}"}
+
+    equation = sympy.Eq(diffeq, rhs_expr)
+
+    # Construct the initial conditions dictionary for dsolve
+    ics = {}
+    if initial_conditions:
+        for order_str, value in initial_conditions.items():
+            order = int(order_str)
+            if order == 0:
+                ics[y.subs(t, 0)] = value
+            else:
+                ics[sympy.diff(y, t, order).subs(t, 0)] = value
+
+    # Solve the differential equation
+    try:
+        if ics:
+            solution = sympy.dsolve(equation, y, ics=ics)
+        else:
+            solution = sympy.dsolve(equation, y)
+
+        # Prepare both LaTeX and plain string solutions
+        latex_solution = sympy.latex(solution.rhs)
+        plain_solution = str(solution.rhs)
+
+        return {'latex': latex_solution, 'plain': plain_solution}
+    except Exception as e:
+        return {'error': f"An error occurred while solving: {e}"}
+
 if __name__ == '__main__':
     # Example: y'''(t) - 2y''(t) - y'(t) + 2y(t) = 0
     # y(0) = 4, y'(0) = 6, y''(0) = 10

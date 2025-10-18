@@ -2,13 +2,80 @@
 
 body {
     font-family: 'Lato', sans-serif;
+    background-color: #f4f7f6;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #2c3e50;
+    color: white;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.header-content h1 {
+    margin: 0;
+    font-size: 1.8rem;
+}
+
+.header-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.header-info p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #ecf0f1;
+}
+
+.header-info a {
+    color: #ecf0f1;
+    text-decoration: none;
+}
+
+.header-info a:hover {
+    text-decoration: underline;
+}
+
+nav {
+    background-color: #34495e;
+    padding: 0.5rem 2rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+nav a:hover {
+    background-color: #2c3e50;
+}
+
+.main-content {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    background-color: #f4f7f6;
-    color: #333;
-    position: relative;
+    min-height: calc(100vh - 80px);
+    padding: 2rem;
 }
 
 .container {
@@ -32,6 +99,17 @@ body {
 
 .header p {
     color: #7f8c8d;
+}
+
+.form-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.form-row .form-group {
+    flex: 1;
+    margin-bottom: 0;
 }
 
 .form-group {
@@ -142,6 +220,11 @@ button:hover {
     transition: filter 0.3s ease;
 }
 
+#theme-toggle img[src*="sun"] {
+    width: 3rem;
+    height: 3rem;
+}
+
 #theme-toggle:hover {
     background-color: #333;
 }
@@ -191,6 +274,22 @@ body.dark-mode {
 
 .dark-mode #solution-output {
     background-color: #2c2c2c;
+}
+
+.dark-mode header {
+    background-color: #1a1a1a;
+}
+
+.dark-mode nav {
+    background-color: #2c2c2c;
+}
+
+.dark-mode nav a {
+    color: #cccccc;
+}
+
+.dark-mode nav a:hover {
+    background-color: #1a1a1a;
 }
 
 .dark-mode #theme-toggle {

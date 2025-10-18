@@ -5,7 +5,7 @@ import sympy
 
 # Add the parent directory to the path to import the solver
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from solver import solve_homogeneous_ode
+from solver import solve_homogeneous_ode, solve_nonhomogeneous_ode
 
 app = Flask(__name__)
 
@@ -13,10 +13,14 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
+@app.route('/nonhomogeneous')
+def nonhomogeneous():
+    return render_template('nonhomogeneous.html')
+
 @app.route('/solve', methods=['POST'])
 def solve():
     data = request.get_json()
-    
+
     coeffs = {}
     initial_conditions = {}
 
@@ -34,7 +38,32 @@ def solve():
                 return jsonify({'error': f"Invalid mathematical expression: {value}"})
 
     solution_data = solve_homogeneous_ode(coeffs, initial_conditions)
-    
+
+    return jsonify(solution_data)
+
+@app.route('/solve_nonhomogeneous', methods=['POST'])
+def solve_nonhomogeneous():
+    data = request.get_json()
+
+    coeffs = {}
+    initial_conditions = {}
+    rhs = data.get('rhs', '')
+
+    for key, value in data.items():
+        if value and key != 'rhs':
+            try:
+                parsed_value = sympy.sympify(value)
+                if key.startswith('coeff'):
+                    order = key.replace('coeff', '')
+                    coeffs[order] = parsed_value
+                elif key.startswith('ic'):
+                    order = key.replace('ic', '')
+                    initial_conditions[order] = parsed_value
+            except (sympy.SympifyError, TypeError):
+                return jsonify({'error': f"Invalid mathematical expression: {value}"})
+
+    solution_data = solve_nonhomogeneous_ode(coeffs, rhs, initial_conditions)
+
     return jsonify(solution_data)
 
 if __name__ == '__main__':

@@ -1,0 +1,34 @@
+# Examples of Differential Equations
+
+## Homogeneous Linear ODEs with Constant Coefficients
+
+### Second Order
+- y'' + 3y' + 2y = 0, y(0) = 1, y'(0) = 0
+- y'' - 4y = 0, y(0) = 0, y'(0) = 1
+- y'' + 2y' + 5y = 0, y(0) = 1, y'(0) = -1
+
+### Third Order
+- y''' + 2y'' + y' + 2y = 0, y(0) = 1, y'(0) = 0, y''(0) = -1
+- y''' - 3y'' + 3y' - y = 0, y(0) = 0, y'(0) = 1, y''(0) = 0
+
+### Fourth Order
+- y'''' + 2y''' + 3y'' + 2y' + y = 0, y(0) = 1, y'(0) = 0, y''(0) = -1, y'''(0) = 0
+
+## Nonhomogeneous Linear ODEs with Constant Coefficients
+
+### Second Order
+- y'' + 3y' + 2y = e^t, y(0) = 1, y'(0) = 0
+- y'' - 4y = sin(2t), y(0) = 0, y'(0) = 1
+- y'' + 2y' + 5y = t^2, y(0) = 1, y'(0) = -1
+
+### Third Order
+- y''' + 2y'' + y' + 2y = e^{-t}, y(0) = 1, y'(0) = 0, y''(0) = -1
+- y''' - 3y'' + 3y' - y = t*e^t, y(0) = 0, y'(0) = 1, y''(0) = 0
+
+### Fourth Order
+- y'''' + 2y''' + 3y'' + 2y' + y = cos(t), y(0) = 1, y'(0) = 0, y''(0) = -1, y'''(0) = 0
+
+## Notes
+- Coefficients are for the terms in descending order (e.g., for y'' + 3y' + 2y = 0, coeffs are 1, 3, 2)
+- Initial conditions are at t=0
+- RHS functions use standard Python math syntax (e.g., sin(t), exp(t), t**2)

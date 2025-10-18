@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Differential Equation Solver</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Differential Equation Solver</h1>
+            <div class="header-info">
+                <p>By <a href="https://erichanwang.github.io" target="_blank">Eric Wang</a></p>
+            </div>
+        </div>
+        <button id="theme-toggle" type="button" title="Toggle Theme"><img id="theme-icon" src="{{ url_for('static', filename='moon-42.png') }}" alt="Moon Icon"></button>
+    </header>
+    <nav>
+        <a href="{{ url_for('index') }}">Homogeneous</a>
+        <a href="{{ url_for('nonhomogeneous') }}">Nonhomogeneous</a>
+    </nav>
+    <div class="main-content">
+        {% block content %}{% endblock %}
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
