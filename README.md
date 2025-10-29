@@ -2,6 +2,14 @@
 
 This project provides two user interfaces for solving linear ordinary differential equations with constant coefficients: a web application and a Pygame application. The backend for both applications uses the `sympy` library to perform the symbolic calculations.
 
+## Live Demo
+
+The web application is hosted on Render and can be accessed here: [https://ericwang-odesolver.onrender.com/](https://ericwang-odesolver.onrender.com/)
+
+## Folder Layout
+
+A description of the folder layout can be found in [`FOLDER_LAYOUT.md`](FOLDER_LAYOUT.md).
+
 ## Features
 
 -   Solve homogeneous and nonhomogeneous linear ODEs of up to the 4th degree.
